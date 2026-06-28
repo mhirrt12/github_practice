@@ -1,51 +1,81 @@
+const API_URL = 'http://localhost:5500/todos';
 
-let task=document.getElementById("list");
-fetch("http://localhost:5500/users")
-.then(function(res){
-    return res.json();
-})
-.then(function(data){
-    let List= document.getElementById("userList");
-    data.forEach(function(user){
-        let li=document.createElement("li");
-        li.innerHTML=user.name+"-"+user.age;
-        List.appendChild(li);
-    });
-});
-function addTask(){
-    let input=document.getElementById("input").value;
-     if(input===""){
-        return;
-    }
-    fetch("http://localhost:5500/todos",{method:"POST"
-        ,headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({task:input})
-    }).then(res=>res.json())
-    .then(data=>{
-        let list=document.getElementById("list");
-    list.innerHTML="";
-data.forEach(function(todo){
-    let li=document.createElement("li");
-    li.innerHTML=todo.task;
-    list.appendChild(li);
-});});
-    document.getElementById("input").value="";
-     let button=document.createElement("button");
-     button.innerHTML="delete";
-   
-    let li=document.createElement("li");
-    li.innerHTML=(input);
-    task.appendChild(li);
-    li.appendChild(button);
-//  button.onclick = function(event) {
-//     event.stopPropagation(); // stops li click
-//     li.remove();
-// }
-// li.onclick=function(){
-//    button.style.textDecoration="none";
-//    li.style.textDecoration = "line-through";
-//    li.style.color = "green";
-   
-// }
+window.onload = function () {
+    loadTasks();
+};
+
+function loadTasks() {
+
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(tasks => {
+
+            const list = document.getElementById('taskList');
+
+            list.innerHTML = '';
+
+            tasks.forEach(task => {
+
+                const li = document.createElement('li');
+
+                li.textContent = task.task;
+
+                list.appendChild(li);
+
+            });
+
+        });
+
 }
 
+function addTask() {
+
+    const input = document.getElementById('taskInput');
+
+    const task = input.value.trim();
+
+    if(task === ''){
+
+        alert('Please enter a task.');
+
+        return;
+
+    }
+
+    fetch(API_URL,{
+
+        method:'POST',
+
+        headers:{
+            'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+            task:task
+        })
+
+    })
+
+    .then(res=>res.json())
+
+    .then(data=>{
+
+        const list=document.getElementById('taskList');
+
+        list.innerHTML='';
+
+        data.forEach(task=>{
+
+            const li=document.createElement('li');
+
+            li.textContent=task.task;
+
+            list.appendChild(li);
+
+        });
+
+        input.value='';
+
+    });
+
+}
