@@ -1,5 +1,5 @@
 create DATABASE todo_app;
-use todo_up;
+use todo_app;
 create table todos(
     id int auto_increment primary key,
     task varchar(255) not null,
