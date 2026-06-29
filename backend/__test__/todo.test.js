@@ -10,22 +10,18 @@ describe('Todo API', () => {
     });
 
     test('POST /todos should reject empty task', async () => {
-        const response = await request(app)
-            .post('/todos')
-            .send({
-                task: ''
-            });
+        const response = await request(app).post('/todos').send({
+            task: '',
+        });
 
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toBe('Task cannot be empty');
     });
 
     test('POST /todos should add a task', async () => {
-        const response = await request(app)
-            .post('/todos')
-            .send({
-                task: 'Learn Jest'
-            });
+        const response = await request(app).post('/todos').send({
+            task: 'Learn Jest',
+        });
 
         expect(response.statusCode).toBe(200);
         expect(Array.isArray(response.body)).toBe(true);
