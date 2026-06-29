@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 5500;
+//const PORT = process.env.PORT || 5500;
 
 app.get('/todos', (req, res) => {
     db.query('SELECT * FROM todos ORDER BY id DESC', (err, result) => {
